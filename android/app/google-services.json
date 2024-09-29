@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:676818850163:android:faccdc33d1fbb08f9f3506",
+        "mobilesdk_app_id": "1:676818850163:android:e727ce195ebab6329f3506",
         "android_client_info": {
-          "package_name": "com.rodrig.dolarcito"
+          "package_name": "hr.com.dolarhoy"
         }
       },
       "oauth_client": [],
