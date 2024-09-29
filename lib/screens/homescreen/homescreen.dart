@@ -1,83 +1,85 @@
 import 'package:dolarcito/bloc/events/dolar_event.dart';
 import 'package:dolarcito/bloc/main/dolar_bloc.dart';
-import 'package:dolarcito/bloc/states/dolar_state.dart';
-import 'package:dolarcito/widgets/dolarlist/dolar_list.dart';
-import 'package:dolarcito/widgets/cambios/cambios.dart'; // Importamos el nuevo widget
+import 'package:dolarcito/screens/newscreen/newscreen.dart';
+import 'package:dolarcito/screens/streamingscreen/streaming_prices_screen.dart';
+// Importamos el nuevo widget
+import 'package:dolarcito/widgets/dolarmainview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart'; // Importamos Google Fonts
+import 'package:google_fonts/google_fonts.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  // Lista de widgets para cada pestaña
+  static final List<Widget> _widgetOptions = <Widget>[
+    DolarMainView(), // Vista principal de Dólares
+    StreamingPricesScreen(), // Nueva vista para precios de streaming
+    NewsScreen(), // Nueva vista para noticias
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DolarBloc>().add(FetchDolarEvent());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<DolarBloc>().add(FetchDolarEvent());
-
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text(
           'Dolarcito',
           style: GoogleFonts.bebasNeue(fontSize: 30, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.green[800],
+        backgroundColor: Colors.blue[800],
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              context.read<DolarBloc>().add(FetchDolarEvent());
+            },
+          ),
+        ],
       ),
-      body: BlocBuilder<DolarBloc, DolarState>(
-        builder: (context, state) {
-          if (state is DolarLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is DolarLoaded) {
-            return Column(
-              children: [
-                // Parte superior con color verde oscuro, bordes redondeados y sombra
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.green[800],
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Center(
-                        child: Text(
-                          'Calculadora de Cotización',
-                          style: TextStyle(color: Colors.white, fontSize: 21),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      // Incluir el CambiosWidget dentro del contenedor
-                      CambiosWidget(dolares: {
-                        'Blue': state.dolares.firstWhere((d) => d['nombre'] == 'Blue'),
-                        'Oficial': state.dolares.firstWhere((d) => d['nombre'] == 'Oficial'),
-                        'Tarjeta': state.dolares.firstWhere((d) => d['nombre'] == 'Tarjeta'),
-                      }),
-                    ],
-                  ),
-                ),
-                // Parte blanca que muestra las cotizaciones
-                Expanded(
-                  child: DolarListWidget(dolares: state.dolares),
-                ),
-              ],
-            );
-          } else if (state is DolarError) {
-            return Center(child: Text(state.message));
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.blue[800],
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_money, color: Colors.white),
+            label: 'Dólares',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.tv, color: Colors.white),
+            label: 'Streaming',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.article, color: Colors.white),
+            label: 'Noticias',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blueAccent,
+        onTap: _onItemTapped,
       ),
     );
   }
