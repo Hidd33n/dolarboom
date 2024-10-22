@@ -1,4 +1,4 @@
-# dolarcito
+# DolarBoom
 
 A new Flutter project.
 
