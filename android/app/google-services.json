@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676818850163",
+    "project_id": "dolarcito-bc004",
+    "storage_bucket": "dolarcito-bc004.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676818850163:android:e727ce195ebab6329f3506",
+        "android_client_info": {
+          "package_name": "hr.com.dolarhoy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYvDiO_hWwqa9ZFi7HXBf79HfGnh3FNs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
