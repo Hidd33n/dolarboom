@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dolarcito/bloc/events/historical_dolar_event.dart';
-import 'package:dolarcito/bloc/states/historical_dolar_state.dart';
-import 'package:dolarcito/data/services/api_service.dart';
+import 'package:dolarboom/bloc/events/historical_dolar_event.dart';
+import 'package:dolarboom/bloc/states/historical_dolar_state.dart';
+import 'package:dolarboom/data/services/api_service.dart';
 
 class HistoricalDolarBloc extends Bloc<HistoricalDolarEvent, HistoricalDolarState> {
   final ApiService apiService;

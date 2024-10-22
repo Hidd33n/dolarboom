@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:dolarcito/bloc/events/dolar_event.dart';
-import 'package:dolarcito/bloc/states/dolar_state.dart';
-import 'package:dolarcito/data/services/api_service.dart';
+import 'package:dolarboom/bloc/events/dolar_event.dart';
+import 'package:dolarboom/bloc/states/dolar_state.dart';
+import 'package:dolarboom/data/services/api_service.dart';
 
 class DolarBloc extends Bloc<DolarEvent, DolarState> {
   final ApiService apiService;
